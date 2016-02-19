@@ -1,0 +1,29 @@
+{
+  "mock-v": "0.0.1",
+  "sources": {
+    "apigateway": {
+      "/aggregate": {
+        "invoke": "aggregation_service",
+        "event": {
+          "bucket": "test",
+          "prefix": "crowdpatent.com/messages/cp10101",
+          "marker": ""
+        }
+      },
+      "/message_service": {
+        "invoke": "message_service",
+        "event": {
+          "bucket": "test",
+          "prefix": "crowdpatent.com/messages/cp10101",
+          "marker": ""
+        }
+      },
+      "/file_service": {
+        "invoke": "file_service",
+        "event": {
+          "organization": "crowdpatent.com"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "Date": "2015-02-15T08:23:23.000Z",
+  "Last-Modified": "2015-02-15T08:23:23.000Z",
+  "ETag": "gba9dede5f27731c9771645a39863328",
+  "Content-Length": 123,
+  "Content-Type": "application/octet-stream",
+  "x-amz-meta-from": "johannes@boyne.de",
+  "x-amz-meta-to": "yorck@hernandez.com",
+  "Connection": "close",
+  "Server": "AmazonS3"
+}
