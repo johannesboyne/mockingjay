@@ -14,19 +14,19 @@ http.createServer(function(r,s) {
       })
       r.on('end', function () {
         var rj = JSON.parse(_d)
-        if (rj.hasOwnProperty('TableName')) { //dynamodb
+        if (rj.hasOwnProperty('TableName')) { // dynamodb
           var fileName = JSON.stringify([rj.TableName,rj.ExpressionAttributeValues])
           .replace(/[^a-z0-9]/gi, '.')
           .replace(/\.{2}/g, '')
           .toLowerCase()
           s.end(fs.readFileSync('./responses/dynamodb/'+fileName+'.json'))
-        } else if(path.match(/\/2015-03-31\/functions\//)) {
+        } else if(path.match(/\/2015-03-31\/functions\//)) { // lambda
           mockingjay({invoke: "message_service", event: rj}).out.pipe(s)
         }
       })
       break;
     case 'GET':
-      switch (path) {
+      switch (path) { // s3
         case '/':
           var px = url.parse(r.url, true).query.prefix
           if (px)
