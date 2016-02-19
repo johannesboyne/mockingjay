@@ -38,4 +38,21 @@ mockingjay
 ├── mock.json        => API Gateway config
 └── mockingjay.js    => uses the lambdarunner as execution-runner
 
+// Execution flow
+
+http://localhost:1340/foo
+  |
+.>[ AWS API Gateway ]
+ \  | mock.json
+  \ |   foo: ( invoke ) `foo_service`
+  | |        ( event  ) `{ ... }`
+  `-[ Mockingjay      ] (starts a new process for the execution)
+      [ Lambdarunner    ] <---------------------------------.
+      | ./../functions/foo_service/function.json (runtime?) |
+      | ./../functions/foo_service/ ---------- load the lambda-function
+   .->[ Foo Service     ]
+   |  |
+   |  `-> AWS Calls (S3/DynamoDB/Lambda) => [ AWS Services ]-.
+   `---------------------------------------------------------`
+
 ```
