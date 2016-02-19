@@ -1,5 +1,7 @@
 # NOTHING HERE, WORK IN PROGRESS
 
+- *WARNING*: No tests, maybe wrong assumptions, ...
+
 ### Mockingjay
 
 A simple local development setup to simulate AWS Lambda, S3, and DynamoDB executions.
