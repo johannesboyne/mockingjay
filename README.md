@@ -6,53 +6,6 @@
 
 A simple local development setup to simulate AWS Lambda, S3, and DynamoDB executions.
 
-**AWS internal API Workaround**
-
-One has to edit its host env, e.g.: `127.0.0.1 test.localhost`.
-
-### Do you need this?
-
-... and want to have more information? Send me a p.m.
-
-
-### Configuration / Usage
-
-I'm using apex for the lambda deployment and thus it is heavily opinioated
-towards apx.
-
-```
-// Folder Setup
-
-project.json
-functions
-└── bar
-    ├── function.json
-    └── index.js
-mockingjay
-├── responses
-│   ├── dynamodb/
-│   └── s3/
-├── awsapigateway.js => Local AWS API Gateway (executes lambdas through mockingjay)
-├── awsservices.js   => Local AWS API (DynamoDB, S3, Lambda)
-├── lambdarunner.js  => loads and executes the real-lambdas from a top functions folder
-├── mock.json        => API Gateway config
-└── mockingjay.js    => uses the lambdarunner as execution-runner
-
-// Execution flow
-
-http://localhost:1340/foo
-  |
-.>[ AWS API Gateway ]
- \  | mock.json
-  \ |   foo: ( invoke ) `foo_service`
-  | |        ( event  ) `{ ... }`
-  `-[ Mockingjay      ] (starts a new process for the execution)
-      [ Lambdarunner    ] <---------------------------------.
-      | ./../functions/foo_service/function.json (runtime?) |
-      | ./../functions/foo_service/ ---------- load the lambda-function
-   .->[ Foo Service     ]
-   |  |
-   |  `-> AWS Calls (S3/DynamoDB/Lambda) => [ AWS Services ]-.
-   `---------------------------------------------------------`
-
-```
+- DynamoDB Local: http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tools.html
+- S3 Local: https://github.com/jubos/fake-s3
+- API Gateway & Lamdba Runner: `awsservices.js` (this initializes the local dynamoDB and s3 servers as well!)

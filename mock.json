@@ -6,22 +6,47 @@
         "invoke": "aggregation_service",
         "event": {
           "bucket": "test",
-          "prefix": "crowdpatent.com/messages/cp10101",
+          "prefix": "crowdpatent-com/messages/cp10101",
           "marker": ""
         }
       },
       "/message_service": {
         "invoke": "message_service",
         "event": {
-          "bucket": "test",
-          "prefix": "crowdpatent.com/messages/cp10101",
-          "marker": ""
+          "bucket": "crowdpatent-com",
+          "prefix": "messages/cp10101"
+        }
+      },
+      "/single_message_service": {
+        "invoke": "single_message_service",
+        "event": {
+          "bucket": "crowdpatent-com",
+          "key": "messages/cp10101/33fe3b25413ea48a77497977ab7537e6-2016-02-23-15-50-24"
         }
       },
       "/file_service": {
         "invoke": "file_service",
         "event": {
-          "organization": "crowdpatent.com"
+          "organization": "crowdpatent-com"
+        }
+      },
+      "/new_file_service": {
+        "invoke": "new_file_service",
+        "event": {}
+      },
+      "/new_message_service": {
+        "invoke": "new_message_service",
+        "event": {
+          "file": "cp10101",
+          "body": "test",
+          "to": "j@b.de",
+          "from": "b@j.de"
+        }
+      },
+      "/new_organization": {
+        "invoke": "new_organization",
+        "event": {
+          "organization": "crowdpatent-com"
         }
       }
     }
