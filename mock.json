@@ -1,13 +1,13 @@
 {
   "mock-v": "0.0.1",
+  "project-prefix": "CPDC",
   "sources": {
     "apigateway": {
       "/aggregate": {
         "invoke": "aggregation_service",
         "event": {
-          "bucket": "test",
-          "prefix": "crowdpatent-com/messages/cp10101",
-          "marker": ""
+          "organization": "crowdpatent-com",
+          "file": "cp10101"
         }
       },
       "/message_service": {
@@ -15,6 +15,13 @@
         "event": {
           "bucket": "crowdpatent-com",
           "prefix": "messages/cp10101"
+        }
+      },
+      "/document_service": {
+        "invoke": "document_service",
+        "event": {
+          "bucket": "crowdpatent-com",
+          "prefix": "documents/cp10101"
         }
       },
       "/single_message_service": {

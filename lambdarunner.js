@@ -6,9 +6,14 @@ process.stdin.on('data', function(chunk) {
 process.stdin.on('end', function() {
   var r = JSON.parse(stdin)
   if (require('./../functions/'+r.invoke+'/function.json').runtime === "nodejs") {
-    require('./../functions/'+r.invoke).handle(r.event, {succeed: function (results) {
-      console.log(JSON.stringify(results))
-    }})
+    require('./../functions/'+r.invoke).handle(r.event, {
+      succeed: function (results) {
+        console.log(JSON.stringify(results))
+      },
+      fail: function (err) {
+        console.error(JSON.stringify(err))
+      }
+    })
   } else {
     console.log('give me some time!')
   }

@@ -54,14 +54,20 @@ http.createServer(function(r,s) {
     r.on('end', function () {
       var rj = JSON.parse(_d)
       if(path.match(/\/2015-03-31\/functions\//)) {
-        // TOOD: make universal
-        mockingjay({invoke: "message_service", event: rj}).out.pipe(s)
+        console.log('INVOKE', path, query)
+        var invokerObj = {
+          invoke: path.split('/')[3].replace(mock["project-prefix"]+'_',''),
+          event: rj,
+        }
+        console.dir(invokerObj)
+        mockingjay(invokerObj).out.pipe(s)
       }
     })
   } else if(path.match(/\/execute\//)) {
     path = path.replace(/\/execute/, '');
     console.log('FOUND PATH', path)
     if (mock.sources.apigateway[path]) {
+      console.log('EXECUTE', path, query)
       if (r.method === 'POST') {
         var _e = ''
         r.on('data', function (d) { _e += ''+d; })
@@ -70,7 +76,6 @@ http.createServer(function(r,s) {
         })
       } else {
         if (Object.keys(query).length > 0) {
-          console.log('EXECUTE', path, query)
           λ(path, s, query)
         } else {
           λ(path, s)
