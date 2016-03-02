@@ -7,20 +7,22 @@
         "invoke": "aggregation_service",
         "event": {
           "organization": "crowdpatent-com",
+          "user": "johannes.boyne@crowdpatent.com",
           "file": "cp10101"
         }
       },
       "/message_service": {
         "invoke": "message_service",
         "event": {
-          "bucket": "crowdpatent-com",
+          "organization": "crowdpatent-com",
+          "user": "johannes.boyne@crowdpatent.com",
           "prefix": "messages/cp10101"
         }
       },
       "/document_service": {
         "invoke": "document_service",
         "event": {
-          "bucket": "crowdpatent-com",
+          "organization": "crowdpatent-com",
           "prefix": "documents/cp10101"
         }
       },

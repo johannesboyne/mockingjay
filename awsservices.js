@@ -35,9 +35,10 @@ http.createServer(function(r,s) {
     return s.end('accepted')
   }
 
-  function λ(path, s, event) {
+  function λ(path, s, event, ctx) {
     var invoker = mock.sources.apigateway[path]
     invoker.event = event || invoker.event
+    invoker.context = ctx || {}
     var jay     = mockingjay(invoker)
     jay.err.on('data', function (e) {
       console.log('ERROR FROM INVOKER:',e.toString())
@@ -68,11 +69,13 @@ http.createServer(function(r,s) {
     console.log('FOUND PATH', path)
     if (mock.sources.apigateway[path]) {
       console.log('EXECUTE', path, query)
-      if (r.method === 'POST') {
+      if (r.method === 'POST' || r.method === 'PUT') {
         var _e = ''
         r.on('data', function (d) { _e += ''+d; })
         r.on('end', function () {
-          λ(path, s, JSON.parse(_e))
+          var evt = JSON.parse(_e)
+          var ctx = {httpMethod: r.method}
+          λ(path, s, evt, ctx)
         })
       } else {
         if (Object.keys(query).length > 0) {
