@@ -11,7 +11,7 @@ process.stdin.on('end', function() {
         console.log(JSON.stringify(results))
       },
       fail: function (err) {
-        console.error(JSON.stringify(err))
+        console.error('ERROR:', err instanceof Error ? err : JSON.stringify(err))
       }
     }
     if (r.context) {

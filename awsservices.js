@@ -8,8 +8,7 @@ const http      = require('http'),
     s3local     = require('./s3local'),
     dynamolocal = require('./dynamodblocal'),
     url         = require('url'),
-    mock        = require('./mock.json'),
-    spawn       = require('child_process').spawn
+    mock        = require('./mock.json');
 
 console.log('Available API Gateway (Mocks)')
 Object.keys(mock.sources.apigateway).forEach(function (gatewaykey) {
@@ -36,13 +35,15 @@ http.createServer(function(r,s) {
   }
 
   function λ(path, s, event, ctx) {
-    var invoker = mock.sources.apigateway[path]
-    invoker.event = event || invoker.event
+    var invoker     = mock.sources.apigateway[path]
+    invoker.event   = event || invoker.event
     invoker.context = ctx || {}
-    var jay     = mockingjay(invoker)
+    var jay         = mockingjay(invoker)
+
     jay.err.on('data', function (e) {
-      console.log('ERROR FROM INVOKER:',e.toString())
-    })
+      this.writeHead(400)
+      this.end(e.toString())
+    }.bind(s))
     jay.out.pipe(s)
   }
 
@@ -60,7 +61,6 @@ http.createServer(function(r,s) {
           invoke: path.split('/')[3].replace(mock["project-prefix"]+'_',''),
           event: rj,
         }
-        console.dir(invokerObj)
         mockingjay(invokerObj).out.pipe(s)
       }
     })
@@ -74,14 +74,15 @@ http.createServer(function(r,s) {
         r.on('data', function (d) { _e += ''+d; })
         r.on('end', function () {
           var evt = JSON.parse(_e)
-          var ctx = {httpMethod: r.method}
-          λ(path, s, evt, ctx)
+          evt.http_method = r.method
+          λ(path, s, evt)
         })
       } else {
         if (Object.keys(query).length > 0) {
+          query.http_method = r.method
           λ(path, s, query)
         } else {
-          λ(path, s)
+          λ(path, s, {http_method: r.method})
         }
       }
     } else {
@@ -99,4 +100,7 @@ dynamolocal(() => {
 
 
 // init s3 
-// @TODO(jb): init GoFakeS3 service here
+console.log('start S3 local')
+s3local(() => {
+  console.log('S3 terminated')
+})

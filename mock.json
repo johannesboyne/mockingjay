@@ -11,7 +11,14 @@
           "file": "cp10101"
         }
       },
-      "/message_service": {
+      "/s3-upload-policy-gen-service": {
+        "invoke": "s3_upload_policy_gen_service",
+        "event": {
+          "organization": "crowdpatent-com",
+          "file": "cp10101"
+        }
+      },
+      "/message-service": {
         "invoke": "message_service",
         "event": {
           "organization": "crowdpatent-com",
@@ -19,31 +26,31 @@
           "prefix": "messages/cp10101"
         }
       },
-      "/document_service": {
+      "/document-service": {
         "invoke": "document_service",
         "event": {
           "organization": "crowdpatent-com",
           "prefix": "documents/cp10101"
         }
       },
-      "/single_message_service": {
+      "/single-message-service": {
         "invoke": "single_message_service",
         "event": {
           "bucket": "crowdpatent-com",
           "key": "messages/cp10101/33fe3b25413ea48a77497977ab7537e6-2016-02-23-15-50-24"
         }
       },
-      "/file_service": {
+      "/file-service": {
         "invoke": "file_service",
         "event": {
           "organization": "crowdpatent-com"
         }
       },
-      "/new_file_service": {
+      "/new-file-service": {
         "invoke": "new_file_service",
         "event": {}
       },
-      "/new_message_service": {
+      "/new-message-service": {
         "invoke": "new_message_service",
         "event": {
           "file": "cp10101",
@@ -52,10 +59,20 @@
           "from": "b@j.de"
         }
       },
-      "/new_organization": {
+      "/new-organization": {
         "invoke": "new_organization",
         "event": {
           "organization": "crowdpatent-com"
+        }
+      },
+      "/task-service": {
+        "invoke": "task_service",
+        "event": {
+          "task": {
+            "title": "Test title",
+            "file": "cp10101",
+            "organization": "crowdpatent-com"
+          }
         }
       }
     }
